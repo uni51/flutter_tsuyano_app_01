@@ -55,6 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: TextField(
+                onChanged: textChanged,
                 controller: _controller,
                 style: const TextStyle(
                     fontSize: 28.0,
@@ -63,25 +64,15 @@ class _MyHomePageState extends State<MyHomePage> {
                     fontFamily: "Roboto"),
               ),
             ),
-            ElevatedButton(
-                onPressed: buttonPressed,
-                child: const Text(
-                  "Push me!",
-                  style: TextStyle(
-                      fontSize: 32.0,
-                      color: Color(0xff000000),
-                      fontWeight: FontWeight.w400,
-                      fontFamily: "Roboto"),
-                )),
           ],
         ),
       ),
     );
   }
 
-  void buttonPressed() {
+  void textChanged(String val) {
     setState(() {
-      _message = 'you said: ' + _controller.text;
+      _message = val.toUpperCase();
     });
   }
 }
