@@ -28,23 +28,22 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   static var _message = 'ok.';
-  static var _janken = <String>['グー', 'チョキ', 'パー'];
-
+  static final _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('App Name'),
+        title: const Text('App Name'),
       ),
-      body:
-      Row(
+      body: Center(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(20.0),
               child: Text(
                 _message,
                 style: const TextStyle(
@@ -53,28 +52,36 @@ class _MyHomePageState extends State<MyHomePage> {
                     fontFamily: "Roboto"),
               ),
             ),
-            RawMaterialButton(
-                fillColor: Colors.white,
-                elevation: 10.0,
-                padding: EdgeInsets.all(10.0),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: TextField(
+                controller: _controller,
+                style: const TextStyle(
+                    fontSize: 28.0,
+                    color: Color(0xffFF0000),
+                    fontWeight: FontWeight.w400,
+                    fontFamily: "Roboto"),
+              ),
+            ),
+            ElevatedButton(
                 onPressed: buttonPressed,
                 child: const Text(
                   "Push me!",
-                  style: TextStyle(fontSize:32.0,
+                  style: TextStyle(
+                      fontSize: 32.0,
                       color: Color(0xff000000),
                       fontWeight: FontWeight.w400,
                       fontFamily: "Roboto"),
-                )
-            ),
-
-          ]
+                )),
+          ],
+        ),
       ),
     );
   }
 
   void buttonPressed() {
     setState(() {
-      _message = (_janken..shuffle()).first;
+      _message = 'you said: ' + _controller.text;
     });
   }
 }
