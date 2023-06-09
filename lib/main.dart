@@ -59,9 +59,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
-                  Checkbox(value: _checked, onChanged: checkChanged),
+                  Switch(
+                      value: _checked,
+                      onChanged: checkChanged
+                  ),
                   const Text(
-                    "Checkbox",
+                    "Switch",
                     style: TextStyle(
                         fontSize: 28.0,
                         fontWeight: FontWeight.w400,
