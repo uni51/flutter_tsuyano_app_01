@@ -28,7 +28,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   static var _message = 'ok.';
-  static var _index = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -36,41 +35,32 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: const Text('App Name'),
       ),
-      body: Center(
-          child: Text(
+      body: Column(
+        children: <Widget>[
+          Text(
             _message,
             style: const TextStyle(
-              fontSize: 28.0,
+              fontSize: 32.0
             ),
-          )
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _index,
-        backgroundColor: Colors.lightBlueAccent,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            label: 'Android',
-            icon: Icon(Icons.android, color: Colors.black, size: 50),
           ),
-          BottomNavigationBarItem(
-            label: 'Favorite',
-            icon: Icon(Icons.favorite, color: Colors.red, size: 50),
-          ),
-          BottomNavigationBarItem(
-            label: 'Home',
-            icon: Icon(Icons.home, color: Colors.white, size: 50),
-          ),
-        ],
-        onTap: tapBottomIcon,
-      ),
-    );
-  }
+          ListView(
+            shrinkWrap: true,
+            padding: const EdgeInsets.all(22.0),
 
-  void tapBottomIcon(int value) {
-    var items = ['Android', 'Heart', 'Home'];
-    setState(() {
-      _index = value;
-      _message = 'you tapped: "' + items[_index] + '".';
-    });
+            children: const <Widget>[
+              Text('First item',
+                style: TextStyle(fontSize: 24.0),
+              ),
+              Text('Second item',
+                style: TextStyle(fontSize: 24.0),
+              ),
+              Text('Third item',
+                style: TextStyle(fontSize: 24.0),
+              ),
+            ]
+          )
+        ],
+      )
+    );
   }
 }
