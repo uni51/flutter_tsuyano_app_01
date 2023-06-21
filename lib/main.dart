@@ -12,77 +12,80 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
         primaryColor: const Color(0xFF2196f3),
-        accentColor: const Color(0xFF2196f3),
         canvasColor: const Color(0xFFfafafa),
       ),
-      home: MyHomePage(),
+      home: FirstScreen(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key}) : super(key: key);
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-
+// １つ目のスクリーン
+class FirstScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('App Name'),
+        title: const Text('Home'),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            Container(
-              color: Colors.blue,
-              height: 200.0,
-              child: const Center(
-                child: Text('One',
-                    style: const TextStyle(fontSize: 32.0)),
-              ),
-            ),
-            Container(
-              color:Colors.white,
-              height: 200.0,
-              child: const Center(
-                child: Text('Two',
-                    style: const TextStyle(fontSize: 32.0)),
-              ),
-            ),
-            Container(
-              color: Colors.blue,
-              height: 200.0,
-              child: const Center(
-                child: Text('Three',
-                    style: const TextStyle(fontSize: 32.0)),
-              ),
-            ),
-            Container(
-              color:Colors.white,
-              height: 200.0,
-              child: const Center(
-                child: Text('Four',
-                    style: const TextStyle(fontSize: 32.0)),
-              ),
-            ),
-            Container(
-              color: Colors.blue,
-              height: 200.0,
-              child: const Center(
-                child: Text('Five',
-                    style: const TextStyle(fontSize: 32.0)),
-              ),
-            ),
-          ],
+      body: Center(
+        child: Container(
+          child: const Text('Home Screen',
+              style: const TextStyle(fontSize: 32.0)),
         ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: 1,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            label: 'Home',
+            icon: Icon(Icons.home, size:32),
+          ),
+          BottomNavigationBarItem(
+            label: 'next',
+            icon: Icon(Icons.navigate_next, size:32),
+          ),
+        ],
+        onTap: (int value) {
+          if (value == 1) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context)=>SecondScreen()),
+            );
+          }
+        },
       ),
     );
   }
+}
 
+// ２つ目のスクリーン
+class SecondScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Next"),
+      ),
+      body: const Center(
+        child: Text('Next Screen',
+            style:TextStyle(fontSize: 32.0)),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: 0,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            label: 'prev',
+            icon: Icon(Icons.navigate_before, size:32),
+          ),
+          BottomNavigationBarItem(
+            label: '?',
+            icon: Icon(Icons.android, size:32),
+          ),
+        ],
+        onTap: (int value) {
+          if (value == 0) Navigator.pop(context);
+        },
+      ),
+    );
+  }
 }
