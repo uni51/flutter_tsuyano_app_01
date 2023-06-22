@@ -19,19 +19,37 @@ class MyApp extends StatelessWidget {
   }
 }
 
+class FirstScreen extends StatefulWidget {
+  FirstScreen({Key? key}): super(key: key); // コンストラクタ
+
+  @override
+  _FirstScreenState createState() => _FirstScreenState();
+}
+
 // １つ目のスクリーン
-class FirstScreen extends StatelessWidget {
+class _FirstScreenState extends State<FirstScreen> {
+  static final _controller = TextEditingController();
+  static var _input = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home'),
       ),
-      body: Center(
-        child: Container(
-          child: const Text('Home Screen',
+      body: Column(
+        children: <Widget>[
+          const Text('Home Screen',
               style: const TextStyle(fontSize: 32.0)),
-        ),
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: TextField(
+              controller: _controller,
+              style: const TextStyle(fontSize: 28.0),
+              onChanged: changeField,
+            ),
+          ),
+        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: 1,
@@ -49,26 +67,34 @@ class FirstScreen extends StatelessWidget {
           if (value == 1) {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context)=>SecondScreen()),
+              MaterialPageRoute(builder: (context) => SecondScreen(_input)),
             );
           }
         },
       ),
     );
   }
+
+  void changeField(String val) => _input = val;
 }
 
 // ２つ目のスクリーン
 class SecondScreen extends StatelessWidget {
+  final String _value;
+
+  SecondScreen(this._value);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Next"),
       ),
-      body: const Center(
-        child: Text('Next Screen',
-            style:TextStyle(fontSize: 32.0)),
+      body: Center(
+        child: Text(
+          'you typed: "$_value".',
+          style: const TextStyle(fontSize: 32.0),
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: 0,
