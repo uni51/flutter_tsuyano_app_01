@@ -30,9 +30,9 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMixin {
 
   static const List<Tab> tabs = <Tab>[
-    Tab(text: 'One'),
-    Tab(text: 'Two'),
-    Tab(text: 'Three'),
+    Tab(text: 'One', icon: Icon(Icons.star)),
+    Tab(text: 'Two', icon: Icon(Icons.info)),
+    Tab(text: 'Three', icon: Icon(Icons.home)),
   ];
 
   late TabController _tabController;
@@ -51,7 +51,11 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
     return Scaffold(
       appBar: AppBar(
         title: Text('My App'),
-        bottom: TabBar(
+      ),
+
+      bottomNavigationBar: Container(
+        color: Colors.blue,
+        child:TabBar(
           controller: _tabController,
           tabs: tabs,
         ),
