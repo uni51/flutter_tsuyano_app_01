@@ -14,74 +14,53 @@ class MyApp extends StatelessWidget {
         primaryColor: const Color(0xFF2196f3),
         canvasColor: const Color(0xFFfafafa),
       ),
-      home: FirstScreen(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => FirstScreen(),
+        '/second': (context) => SecondScreen('Second'),
+        '/third': (context) => SecondScreen('Third'),
+      },
     );
   }
 }
 
-class FirstScreen extends StatefulWidget {
-  FirstScreen({Key? key}): super(key: key); // コンストラクタ
-
-  @override
-  _FirstScreenState createState() => _FirstScreenState();
-}
-
-// １つ目のスクリーン
-class _FirstScreenState extends State<FirstScreen> {
-  static final _controller = TextEditingController();
-  static var _input = '';
-
+// 1つ目のスクリーン
+class FirstScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home'),
+        title: Text('Home'),
       ),
-      body: Column(
-        children: <Widget>[
-          const Text('Home Screen',
-              style: const TextStyle(fontSize: 32.0)),
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: TextField(
-              controller: _controller,
-              style: const TextStyle(fontSize: 28.0),
-              onChanged: changeField,
-            ),
-          ),
-        ],
+      body: const Center(
+        child:Text('Home Screen',
+          style: TextStyle(fontSize: 32.0),
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: 1,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             label: 'Home',
-            icon: Icon(Icons.home, size:32),
+            icon: Icon(Icons.home),
           ),
           BottomNavigationBarItem(
             label: 'next',
-            icon: Icon(Icons.navigate_next, size:32),
+            icon: Icon(Icons.navigate_next),
           ),
         ],
         onTap: (int value) {
-          if (value == 1) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => SecondScreen(_input)),
-            );
-          }
+          if (value == 1)
+            Navigator.pushNamed(context, '/second');
         },
       ),
     );
   }
-
-  void changeField(String val) => _input = val;
 }
 
 // ２つ目のスクリーン
 class SecondScreen extends StatelessWidget {
   final String _value;
-
   SecondScreen(this._value);
 
   @override
@@ -92,7 +71,7 @@ class SecondScreen extends StatelessWidget {
       ),
       body: Center(
         child: Text(
-          'you typed: "$_value".',
+         '$_value Screen',
           style: const TextStyle(fontSize: 32.0),
         ),
       ),
@@ -110,6 +89,8 @@ class SecondScreen extends StatelessWidget {
         ],
         onTap: (int value) {
           if (value == 0) Navigator.pop(context);
+          if (value == 1)
+            Navigator.pushNamed(context, '/third');
         },
       ),
     );
