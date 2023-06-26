@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'dart:typed_data';
+import 'dart:ui' as ui;
 
 void main() {
   runApp(MyApp());
@@ -28,54 +31,51 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  static var _items = <Widget>[];
-  static var _message = 'ok.';
-  static var _tapped = 0;
+  static ui.Image? _img = null;
+  static bool _flg = false;
 
-  @override
-  void initState() {
-    super.initState();
-    for (var i = 0; i < 5; i++) {
-      var item = ListTile(
-          leading: const Icon(Icons.android),
-          title: Text('No, $i'),
-          onTap: (){
-            _tapped = i;
-            tapItem();
-          }
-      );
-      _items.add(item);
-    }
+  Future<void> loadAssetImage(String fname) async {
+    final bd = await rootBundle.load("assets/images/$fname");
+    final Uint8List u8lst = await Uint8List.view(bd.buffer);
+    final codec = await ui.instantiateImageCodec(u8lst);
+    final frameInfo = await codec.getNextFrame();
+    _img = frameInfo.image;
+    setState(()=> _flg = true);
   }
 
   @override
   Widget build(BuildContext context) {
+    loadAssetImage('image.jpg');
+
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 255, 255, 255),
       appBar: AppBar(
-        title: const Text('Flutter App'),
+        title: Text('App Name', style: TextStyle(fontSize: 30.0),),
       ),
-      body: Center(
-        child: Text(
-          _message,
-          style: const TextStyle(
-            fontSize: 32.0,
-          ),
-        ),
-      ),
-      drawer: Drawer(
-        child: ListView(
-          shrinkWrap: true,
-          padding: const EdgeInsets.all(20.0),
-          children: _items,
+      body:Container(
+        child: CustomPaint(
+          painter: MyPainter(_img),
         ),
       ),
     );
   }
+}
 
-  void tapItem() {
-    Navigator.pop(context);
-    setState((){
-      _message = 'tapped:[$_tapped]';
-    });
+class MyPainter extends CustomPainter{
+  ui.Image? _img = null;
+
+  MyPainter(this._img) ;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    Paint p = Paint();
+
+    Offset off = Offset(50.0, 50.0);
+    if (_img != null) {
+      canvas.drawImage(_img!, off, p);
+    }
   }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => true;
 }
